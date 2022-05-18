@@ -1,0 +1,586 @@
+-->1)	Write a program in C Language to implement the digital gates. The program should give the truth table of the gate, which is selected by user from menu displayed the program.
+
+#include<stdio.h>
+#include<conio.h>
+
+int main(){
+    int a[4] = {0,0,1,1};
+    int b[4] = {0,1,0,1};
+     int not[2] = {0,1};
+    int choice,result;
+    do{
+        
+        printf("\n----------MENU----------");
+        printf("\n1.AND GATE");
+        printf("\n2.OR GATE");
+        printf("\n3.NOT GATE");
+        printf("\n4.NOR GATE");
+        printf("\n5.NAND GATE");
+        printf("\n6.XOR GATE");
+        printf("\n7.XNOR GATE");
+        printf("\n8.EXIT");
+        printf("\nEnter Your Choice:");
+        scanf("%d",&choice);
+        
+        switch(choice){
+            case 1:
+            for(int i = 0; i<4; i++){
+                result = a[i] * b[i];
+                printf("\n%d AND %d = %d",a[i],b[i],result);
+            }
+            break;
+            
+            case 2:
+            for(int i = 0; i<4; i++){
+                if(a[i] == 0 && b[i] == 0){
+                    result = 0;
+                }
+                else{
+                    result = 1;
+                }
+                printf("\n%d OR %d = %d",a[i],b[i],result);
+            }
+            break;
+            
+            case 3:
+           
+            for(int i = 0;i<2;i++){
+                if(not[i] == 1){
+                    result = 0;
+                }
+                else{
+                    result = 1;
+                }
+                printf("\nNOT of %d = %d",not[i],result);
+            }
+            break;
+            
+            case 4:
+            for(int i = 0; i<4; i++){
+                if(a[i] == 0 && b[i] == 0){
+                    result = 1;
+                }
+                else{
+                    result = 0;
+                }
+                printf("\n%d NOR %d = %d",a[i],b[i],result);
+            }
+            break;
+            
+            case 5:
+            for(int i = 0; i<4; i++){
+                if(a[i] == 1 && b[i] == 1){
+                    result = 0;
+                }
+                else{
+                    result = 1;
+                }
+                printf("\n%d NAND %d = %d",a[i],b[i],result);
+            }
+            break;
+            
+            case 6:
+            for(int i = 0; i<4; i++){
+                if(a[i] == 0 && b[i] == 0 ||a[i] == 1 && b[i] == 1){
+                    result = 0;
+                }
+                else{
+                    result = 1;
+                }
+                printf("\n%d EX-OR %d = %d",a[i],b[i],result);
+            }
+            break;
+            
+            case 7:
+            for(int i = 0; i<4; i++){
+                if(a[i] == 0 && b[i] == 0 || a[i] == 1 && b[i] == 1){
+                    result = 1;
+                }
+                else{
+                    result = 0;
+                }
+                printf("\n%d EX-NOR %d = %d",a[i],b[i],result);
+            }
+            break;
+            
+            case 8:
+            printf("Exit Point...");
+            break;
+            
+            default:
+            printf("::Invalid Choice::");
+            break;
+        }
+    }while(choice != 8);
+    
+    return 0; 
+    
+}
+
+
+-->2)	Write a program in C Language to convert decimal into binary number.
+
+
+   	#include<stdio.h>    
+	#include<stdlib.h>  
+	int main(){  
+	int a[10],n,i;    
+	printf("\nEnter the number to convert: ");    
+	scanf("%d",&n);    
+	for(i=0;n>0;i++)    
+	{    
+	a[i]=n%2;    
+	n=n/2;    
+	}    
+	printf("\nBinary of Given Number is=");    
+	for(i=i-1;i>=0;i--)    
+	{    
+	printf("%d",a[i]);    
+	}    
+	return 0;  
+	}
+
+-->2-1)	Write a program in C language to implement division algorithm (Using of Restoring method).
+
+#include <stdio.h>
+#include <conio.h> 
+void comp();
+void resdiv();
+void shiftleft();
+void a_minus_b();
+void a_plus_b();
+int a[5] = {0, 0, 0, 0, 0}, b2c[5], b[5], q[5];
+
+void comp()
+{
+ int i = 4;
+ do
+ {
+  b2c[i] = b[i];
+  i--;
+ } while (b[i + 1] != 1);
+ while (i >= 0)
+ {
+  b2c[i] = (b[i] + 1) % 2;
+  i--;
+ }
+ printf("\n b's compliment: ");
+ for (i = 0; i < 5; i++)
+ {
+  printf("%d", b2c[i]);
+ }
+}
+
+void resdiv()
+{
+ shiftleft();
+ if (a[0] == 0)
+ {
+  a_minus_b();
+ }
+ else
+  a_plus_b();
+ q[3] = (a[0] + 1) % 2;
+}
+
+void shiftleft()
+{
+ int i;
+ for (i = 0; i < 4; i++)
+  a[i] = a[i + 1];
+ a[4] = q[0];
+ for (i = 0; i < 3; i++)
+  q[i] = q[i + 1];
+}
+
+void a_minus_b()
+{
+ int i, carry = 0, sum = 0;
+ for (i = 4; i >= 0; i--)
+ {
+  sum = (a[i] + b2c[i] + carry);
+  a[i] = sum % 2;
+  carry = sum / 2;
+ }
+}
+
+void a_plus_b()
+{
+ int i, carry = 0, sum = 0;
+ for (i = 4; i >= 0; i--)
+ {
+  sum = (a[i] + b[i] + carry);
+  a[i] = sum % 2;
+  carry = sum / 2;
+ }
+}
+
+void main()
+{
+ int i, j, k;
+ printf("enter the dividend in binary form\t:");
+ for (i = 0; i < 4; i++)
+  scanf("%d", &q[i]);
+ printf("enter divisor in binary form\t:");
+ for (i = 0; i < 5; i++)
+  scanf("%d", &b[i]);
+
+ comp();
+ printf("\n \t[A]\t[M]\n");
+ for (i = 0; i < 4; i++)
+ {
+  resdiv();
+  printf("\t");
+  for (j = 0; j < 5; j++)
+   printf("%d", a[j]);
+
+  printf("\t");
+  for (k = 0; k < 4; k++)
+   printf("%d", q[k]);
+  printf("\n");
+ }
+
+ if (a[0] == 1)
+ {
+  a_plus_b();
+  printf("\t");
+ }
+ for (j = 0; j < 5; j++)
+ {
+
+  printf("%d", a[j]);
+  printf("\t");
+ }
+ for (k = 0; k < 4; k++)
+ {
+  printf("%d", q[k]);
+  printf("\n");
+  printf("\n Quotient is\t: ");
+ }
+ for (k = 0; k < 4; k++)
+ {
+  printf("%d", q[k]);
+
+  printf("\n Reminder is\t: ");
+ }
+ for (j = 0; j < 5; j++)
+ {
+
+  printf("%d", a[j]);
+ }
+}
+
+-->3-1)	Write a program in C language to implement multiplication algorithm with use of     booth’s algorithm .
+
+#include <stdio.h>
+#include <math.h>
+
+int a = 0, b = 0, c = 0, a1 = 0, b1 = 0, com[5] = {1, 0, 0, 0, 0};
+int anum[5] = {0}, anumcp[5] = {0}, bnum[5] = {0};
+int acomp[5] = {0}, bcomp[5] = {0}, pro[5] = {0}, res[5] = {0};
+
+void binary()
+{
+ a1 = fabs(a);
+ b1 = fabs(b);
+ int r, r2, i, temp;
+ for (i = 0; i < 5; i++)
+ {
+  r = a1 % 2;
+  a1 = a1 / 2;
+  r2 = b1 % 2;
+  b1 = b1 / 2;
+  anum[i] = r;
+  anumcp[i] = r;
+  bnum[i] = r2;
+  if (r2 == 0)
+  {
+   bcomp[i] = 1;
+  }
+  if (r == 0)
+  {
+   acomp[i] = 1;
+  }
+ }
+ // part for two's complementing
+ c = 0;
+ for (i = 0; i < 5; i++)
+ {
+  res[i] = com[i] + bcomp[i] + c;
+  if (res[i] >= 2)
+  {
+   c = 1;
+  }
+  else
+   c = 0;
+  res[i] = res[i] % 2;
+ }
+ for (i = 4; i >= 0; i--)
+ {
+  bcomp[i] = res[i];
+ }
+ // in case of negative inputs
+ if (a < 0)
+ {
+  c = 0;
+  for (i = 4; i >= 0; i--)
+  {
+   res[i] = 0;
+  }
+  for (i = 0; i < 5; i++)
+  {
+   res[i] = com[i] + acomp[i] + c;
+   if (res[i] >= 2)
+   {
+    c = 1;
+   }
+   else
+    c = 0;
+   res[i] = res[i] % 2;
+  }
+  for (i = 4; i >= 0; i--)
+  {
+   anum[i] = res[i];
+   anumcp[i] = res[i];
+  }
+ }
+ if (b < 0)
+ {
+  for (i = 0; i < 5; i++)
+  {
+   temp = bnum[i];
+   bnum[i] = bcomp[i];
+   bcomp[i] = temp;
+  }
+ }
+}
+void add(int num[])
+{
+ int i;
+ c = 0;
+ for (i = 0; i < 5; i++)
+ {
+  res[i] = pro[i] + num[i] + c;
+  if (res[i] >= 2)
+  {
+   c = 1;
+  }
+  else
+  {
+   c = 0;
+  }
+  res[i] = res[i] % 2;
+ }
+ for (i = 4; i >= 0; i--)
+ {
+  pro[i] = res[i];
+  printf("%d", pro[i]);
+ }
+ printf(":");
+ for (i = 4; i >= 0; i--)
+ {
+  printf("%d", anumcp[i]);
+ }
+}
+void arshift()
+{ // for arithmetic shift right
+ int temp = pro[4], temp2 = pro[0], i;
+ for (i = 1; i < 5; i++)
+ { // shift the MSB of product
+  pro[i - 1] = pro[i];
+ }
+ pro[4] = temp;
+ for (i = 1; i < 5; i++)
+ { // shift the LSB of product
+  anumcp[i - 1] = anumcp[i];
+ }
+ anumcp[4] = temp2;
+ printf("\nAR-SHIFT: "); // display together
+ for (i = 4; i >= 0; i--)
+ {
+  printf("%d", pro[i]);
+ }
+ printf(":");
+ for (i = 4; i >= 0; i--)
+ {
+  printf("%d", anumcp[i]);
+ }
+}
+
+void main()
+{
+
+ int i, q = 0;
+ printf("\t\tBOOTH'S MULTIPLICATION ALGORITHM");
+ printf("\nEnter two numbers to multiply: ");
+ printf("\nBoth must be less than 16");
+ // simulating for two numbers each below 16
+ do
+ {
+  printf("\nEnter A: ");
+  scanf("%d", &a);
+  printf("Enter B: ");
+  scanf("%d", &b);
+ } while (a >= 16 || b >= 16);
+
+ printf("\nExpected product = %d", a * b);
+ binary();
+ printf("\n\nBinary Equivalents are: ");
+ printf("\nA = ");
+ for (i = 4; i >= 0; i--)
+ {
+  printf("%d", anum[i]);
+ }
+ printf("\nB = ");
+ for (i = 4; i >= 0; i--)
+ {
+  printf("%d", bnum[i]);
+ }
+ printf("\nB'+ 1 = ");
+ for (i = 4; i >= 0; i--)
+ {
+  printf("%d", bcomp[i]);
+ }
+ printf("\n\n");
+ for (i = 0; i < 5; i++)
+ {
+  if (anum[i] == q)
+  { // just shift for 00 or 11
+   printf("\n-->");
+   arshift();
+   q = anum[i];
+  }
+  else if (anum[i] == 1 && q == 0)
+  { // subtract and shift for 10
+   printf("\n-->");
+   printf("\nSUB B: ");
+   add(bcomp); // add two's complement to implement subtraction
+   arshift();
+   q = anum[i];
+  }
+  else
+  { // add ans shift for 01
+   printf("\n-->");
+   printf("\nADD B: ");
+   add(bnum);
+   arshift();
+   q = anum[i];
+  }
+ }
+
+ printf("\nProduct is = ");
+ for (i = 4; i >= 0; i--)
+ {
+  printf("%d", pro[i]);
+ }
+ for (i = 4; i >= 0; i--)
+ {
+  printf("%d", anumcp[i]);
+ }
+}
+
+-->5-1)	Write an assembly program to find greatest between two numbers.
+;<Program title> jmp start
+;data
+;code start : nop
+LDA 0001H
+MOV B,A
+LDA 0002H
+CMP B
+JNC ABC
+MOV A,B
+ABC: STA 0003H
+HLT
+
+-->5-2)	Write an assembly language code in GNUsim8085 to implement arithmetic Instruction
+
+
+;<Program title> jmp start
+;data
+;code start : nop
+LXI H,0000H
+MOV A,M
+INX H
+MOV B,M
+MVI C,00H
+SUB B
+JNC ANS
+INR C
+ANS: INX H
+MOV M,A
+INX H
+MOV M,C
+HLT
+
+-->6-1)	Write an assembly program to multiply a number by 8 Program.
+
+;<Program title> jmp start
+;data
+;code start : nop
+LXI H,0000H 
+MOV B,M
+INX H
+XRA A
+MOV C,A
+ABC: ADD M
+JNC ANS
+INR C
+ANS: DCR B
+JNZ ABC
+LXI H,0003H 
+STA 0002H
+HLT
+
+-->7-1)	Write an assembly program for count even numbers with use of logical micro instruction.
+;<Program title> jmp start
+;data
+;code start : nop
+LXI H,0000H 
+MVI C,0AH
+MVI B,00H
+LOOP: MOV A,M
+ANI 01H
+JNZ SKIP
+INR B
+SKIP: INX H 
+DCR C
+JNZ LOOP
+MOV A,B 
+STA 000AH
+HLT
+
+-->8-1)	Write an assembly program to take a number from memory location and increment the value two times and store the result in memory location.
+
+;<Program title> jmp start
+;data
+;code start : nop
+LDA 0000H
+INR A
+INR A
+STA 0001H
+HLT
+
+-->9-1)	Write a assembly language program for enter the two numbers from the user and  swap the numbers.
+
+;<Program title> jmp start
+;data
+;code start : nop
+LDA 0000H
+MOV B,A
+LDA 0001H
+STA 0000H
+MOV A,B 
+STA 0001H
+HLT
+
+-->10-1Write an assembly language code in GNUsim8085 to store numbers in reverse order in memory location.
+;<Program title> jmp start
+;data
+;code start : nop
+LDA 0000H
+RRC
+RRC
+RRC
+RRC
+STA 0001H 
+HLT
